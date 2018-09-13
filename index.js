@@ -54,9 +54,6 @@ app.post("/instances", function(req, res) {
   const responseToNetlify = {
     id: id,
     config: config.config,
-    env: {
-      YOUR_SERVICE_API_SECRET: "value"
-    },
     snippets: [
       {
         title: "Snippet From Demo App",
@@ -79,9 +76,6 @@ app.get("/instances/:id", function(req, res) {
   // const instanceData = fetchDataFromDatabase(id)
 
   const instanceData = {
-    env: {
-      YOUR_SERVICE_API_SECRET: "value"
-    },
     snippets: [
       {
         title: "Snippet From Demo App",
@@ -109,9 +103,6 @@ app.put("/instances/:id", function(req, res) {
 
   // Return updated values to Netlify Site
   const responseToNetlify = {
-    env: {
-      YOUR_SERVICE_API_SECRET: "updated-value"
-    },
     snippets: [
       {
         title: "Snippet From Demo App",
@@ -144,7 +135,7 @@ app.delete("/instances/:id", function(req, res) {
 
 const server = app.listen(PORT, function() {
   console.log(
-    "Netlify Addon Provisioning API running on port.",
+    "Netlify ViewSource Addon Provisioning API running on port.",
     server.address().port
   );
 });
