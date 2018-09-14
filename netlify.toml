@@ -1,3 +1,4 @@
 [build]
-  Functions = "lambdas"
+  Functions = "functions"
   command = "npm run build:functions"
+  publish = "."
