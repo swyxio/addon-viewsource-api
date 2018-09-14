@@ -12,6 +12,14 @@
     "deploy": "git push heroku master",
     "log": "heroku logs --tail"
   },
+  "proxy": {
+    "/.netlify/functions": {
+      "target": "http://localhost:9000",
+      "pathRewrite": {
+        "^/\\.netlify/functions": ""
+      }
+    }
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.15.2",
