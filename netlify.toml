@@ -1,2 +1,3 @@
 [build]
   Functions = "functions"
+  command = "yarn run build:functions"

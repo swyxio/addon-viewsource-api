@@ -7,6 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "build:functions": "netlify-lambda build lambdas",
     "start": "node index.js",
     "deploy": "git push heroku master",
     "log": "heroku logs --tail"
@@ -14,7 +15,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.15.2",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "netlify-lambda": "^0.4.0"
   },
   "repository": {
     "type": "git",
