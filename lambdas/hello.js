@@ -1,7 +1,11 @@
-exports.handler = function(event, context, callback) {
+const test = {
+  foo: "bar",
+  bar: 1
+};
+export function handler(event, context, callback) {
+  console.log(event);
   callback(null, {
     statusCode: 200,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ hello: "world" })
+    body: JSON.stringify({ msg: "Hello, World!", test })
   });
-};
+}
