@@ -1,4 +1,0 @@
-[build]
-  Command = "npm run build:lambda"
-  Functions = "lambda"
-  Publish = "."

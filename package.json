@@ -1,17 +1,16 @@
 {
-  "name": "react-lambda",
-  "version": "0.3.0",
-  "private": true,
-  "dependencies": {
-    "netlify-lambda": "^0.4.0"
+  "name": "addon-viewsource-api",
+  "version": "0.0.1",
+  "description": "A sample implementation of a Netlify Addon provider in Express 4",
+  "engines": {
+    "node": "8.9.1"
   },
+  "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "start:lambda": "netlify-lambda serve src/lambda",
-    "build": "react-scripts build",
-    "build:lambda": "netlify-lambda build src/lambda",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "build:functions": "netlify-lambda build src/lambda",
+    "start": "node index.js",
+    "deploy": "git push heroku master",
+    "log": "heroku logs --tail"
   },
   "proxy": {
     "/.netlify/functions": {
@@ -21,16 +20,19 @@
       }
     }
   },
-  "browserslist": {
-    "development": [
-      "last 2 chrome versions",
-      "last 2 firefox versions",
-      "last 2 edge versions"
-    ],
-    "production": [
-      ">0.25%",
-      "not op_mini all",
-      "ie 11"
-    ]
-  }
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.15.2",
+    "morgan": "^1.9.0",
+    "netlify-lambda": "^0.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-getting-started"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "license": "MIT"
 }

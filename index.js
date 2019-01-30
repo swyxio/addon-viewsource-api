@@ -1,12 +1,12 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const morgan = require("morgan");
-const uuid = require("./lib/uuid");
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const uuid = require('./lib/uuid');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const scriptstring = `
-<a href="{{ REPOSITORY_URL }}" class="github-corner" aria-label="View source on Github">
+const makeSVG = url => `
+<a href="${url}" class="github-corner" aria-label="View source on Github">
   <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; left: 0; transform: scale(-1, 1); z-index: 999"
     aria-hidden="true">
     <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
@@ -59,21 +59,21 @@ const scriptstring = `
 // Load express middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(morgan("combined"));
+app.use(morgan('combined'));
 
 /**
  * Required Provisioning Routes needed by Netlify
  */
 
 // Manifest Route. Returns data about the integration
-app.get("/", function(req, res) {
-  res.status(200).send({ name: "addon-viewsource" });
+app.get('/', function(req, res) {
+  res.status(200).send({ name: 'addon-viewsource' });
 });
 
 // Create an instance of your Service for Netlify Site
-app.post("/instances", function(req, res) {
+app.post('/instances', function(req, res) {
   const body = req.body;
-  console.log("Create body", body);
+  console.log('Create body', body);
   const config = body.config;
   console.log(`Create ${body.service_id} Instance for site ${config.site_url}`);
 
@@ -83,10 +83,12 @@ app.post("/instances", function(req, res) {
   */
 
   const userConfig = config.config;
-  console.log("Create userConfig", userConfig);
+  console.log('Create userConfig', userConfig);
   /* Do provisioning logic here */
+  if (!userConfig.repoURL)
+    throw new Error('you must pass a repoURL flag to the viewsource addon');
 
-  const logValue = userConfig.name || "Express App";
+  const logValue = userConfig.name || 'Express App';
 
   // This ID will be used for all update/create/delete calls
   // example DELETE `/instances/${id}`
@@ -98,9 +100,9 @@ app.post("/instances", function(req, res) {
     config: config.config,
     snippets: [
       {
-        title: "Netlify ViewSource Snippet",
-        position: "body",
-        html: scriptstring
+        title: 'Netlify ViewSource Snippet',
+        position: 'body',
+        html: makeSVG(userConfig.repoURL)
       }
     ]
   };
@@ -109,10 +111,10 @@ app.post("/instances", function(req, res) {
 });
 
 // Get details on an instance of your Service for Netlify Site
-app.get("/instances/:id", function(req, res) {
+app.get('/instances/:id', function(req, res) {
   const id = req.params.id;
   console.log(`Get instanceId: ${id}`);
-  console.log("Get body", req.body);
+  console.log('Get body', req.body);
   /* Run logic to get information about instance */
 
   // const instanceData = fetchDataFromDatabase(id)
@@ -120,8 +122,8 @@ app.get("/instances/:id", function(req, res) {
   const instanceData = {
     snippets: [
       {
-        title: "Netlify ViewSource Snippet",
-        position: "body",
+        title: 'Netlify ViewSource Snippet',
+        position: 'body',
         html: scriptstring
       }
     ]
@@ -131,24 +133,24 @@ app.get("/instances/:id", function(req, res) {
 });
 
 // Update details on an instance of your Service for Netlify Site
-app.put("/instances/:id", function(req, res) {
+app.put('/instances/:id', function(req, res) {
   const id = req.params.id;
   console.log(`Update instanceId: ${id}`);
   const body = req.body;
-  console.log("Update body", body);
+  console.log('Update body', body);
   const config = body.config;
-  console.log("Update config", config);
+  console.log('Update config', config);
 
   // Run Update logic to change values in your service
 
-  const logValue = config.name || "Express App";
+  const logValue = config.name || 'Express App';
 
   // Return updated values to Netlify Site
   const responseToNetlify = {
     snippets: [
       {
-        title: "Netlify ViewSource Snippet",
-        position: "body",
+        title: 'Netlify ViewSource Snippet',
+        position: 'body',
         html: scriptstring
       }
     ]
@@ -158,7 +160,7 @@ app.put("/instances/:id", function(req, res) {
 });
 
 // Delete details on an instance of your Service for Netlify Site
-app.delete("/instances/:id", function(req, res) {
+app.delete('/instances/:id', function(req, res) {
   const id = req.params.id;
   console.log(`Delete instanceId: ${id}`);
   console.log(`Delete body`, req.body);
@@ -167,7 +169,7 @@ app.delete("/instances/:id", function(req, res) {
   // Return any data you want back to Netlify cli
   const instanceInfo = {
     data: {
-      lol: "true"
+      lol: 'true'
     }
   };
 
@@ -177,7 +179,7 @@ app.delete("/instances/:id", function(req, res) {
 
 const server = app.listen(PORT, function() {
   console.log(
-    "Netlify ViewSource Addon Provisioning API running on port.",
+    'Netlify ViewSource Addon Provisioning API running on port.',
     server.address().port
   );
 });
