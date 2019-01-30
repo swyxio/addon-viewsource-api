@@ -10,7 +10,8 @@
     "build:functions": "netlify-lambda build src/lambda",
     "start": "node index.js",
     "deploy": "git push heroku master",
-    "log": "heroku logs --tail"
+    "log": "heroku logs --tail",
+    "tsc": "tsc -w"
   },
   "proxy": {
     "/.netlify/functions": {
@@ -34,5 +35,12 @@
     "node",
     "express"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/body-parser": "^1.17.0",
+    "@types/express": "^4.16.1",
+    "@types/morgan": "^1.7.35",
+    "@types/node": "^10.12.19",
+    "typescript": "^3.2.4"
+  }
 }
