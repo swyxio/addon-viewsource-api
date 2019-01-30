@@ -87,7 +87,7 @@ app.post('/instances', function(req, res) {
   /* Do provisioning logic here */
   if (!userConfig.repoURL)
     throw new Error('you must pass a repoURL flag to the viewsource addon');
-
+  const scriptstring = makeSVG(userConfig.repoURL);
   const logValue = userConfig.name || 'Express App';
 
   // This ID will be used for all update/create/delete calls
@@ -102,7 +102,7 @@ app.post('/instances', function(req, res) {
       {
         title: 'Netlify ViewSource Snippet',
         position: 'body',
-        html: makeSVG(userConfig.repoURL)
+        html: scriptstring
       }
     ]
   };
