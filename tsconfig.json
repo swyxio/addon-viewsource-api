@@ -5,7 +5,7 @@
     "lib": ["es6", "dom", "es2015"],
     "moduleResolution": "node",
     "rootDir": ".",
-    "sourceMap": true,
+    "sourceMap": false,
     "allowJs": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
